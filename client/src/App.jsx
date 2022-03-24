@@ -18,7 +18,7 @@ function App() {
           <Home />
         </Route>
         <Route exact path="/add">
-          <Home />
+          <Add />
         </Route>
         <Route exact path="/:_id">
           <Single />

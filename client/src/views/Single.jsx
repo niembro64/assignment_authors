@@ -10,16 +10,15 @@ const p = (a) => {
 const Single = (props) => {
   const { _id } = useParams();
   const [one, setOne] = useState({
-    title: "default",
-    price: "default",
-    description: "default",
+    name: "default",
+
   });
 
   useEffect(() => {
     p("useEffect Running");
 
     axios
-      .get(`http://localhost:9000/api/pm/${_id}`)
+      .get(`http://localhost:9000/api/author/${_id}`)
       .then((res) => {
         console.log(res.data);
         setOne(res.data);
@@ -31,7 +30,7 @@ const Single = (props) => {
     if (window.confirm(`Are you sure you want to delete this item?`)) {
       console.log("inside on click delete");
       axios
-        .delete(`http://localhost:9000/api/pm/delete/${_id}`)
+        .delete(`http://localhost:9000/api/author/delete/${_id}`)
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
     }
@@ -87,9 +86,9 @@ const Single = (props) => {
 
 export default Single;
 
-// module.exports.findOneSinglePM = (req, res) => {
-//     PM.findOne({ _id: req.params._id })
-//       .then((oneSinglePM) => res.json(oneSinglePM))
+// module.exports.findOneSingleAUTHOR = (req, res) => {
+//     AUTHOR.findOne({ _id: req.params._id })
+//       .then((oneSingleAUTHOR) => res.json(oneSingleAUTHOR))
 //       .catch((err) =>
 //         res.status(400).json({ message: "Something went wrong", error: err })
 //       );

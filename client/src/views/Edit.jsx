@@ -16,9 +16,7 @@ const Edit = (props) => {
   //   description: "default",
   // });
   const [form, setForm] = useState({
-    title: "",
-    price: "",
-    description: "",
+    name: "",
   });
 
   const history = useHistory();
@@ -50,9 +48,8 @@ const Edit = (props) => {
     event.preventDefault();
 
     const copyState = {
-      title: form.title,
-      price: form.price,
-      description: form.description,
+      name: form.name,
+
     };
 
     axios
@@ -159,49 +156,15 @@ const Edit = (props) => {
             autoFocus="autofocus"
             id="floatField"
             type="text"
-            name="title"
-            value={form.title}
+            name="name"
+            value={form.name}
             onChange={onChangeHandler}
 
             // placeholder=""
             // default="asdf"
           />
         </div>
-        <div id="floatContainer" className="float-container">
-          <label
-            style={{ position: "absolute", zIndex: 1 }}
-            htmlFor="description"
-          >
-            Price
-          </label>
-          <input
-            style={{ position: "relative", zIndex: 2 }}
-            id="floatField"
-            type="text"
-            name="price"
-            value={form.price}
-            onChange={onChangeHandler}
-          />
-        </div>
-        <div id="floatContainer" className="float-container">
-          <label
-            style={{ position: "absolute", zIndex: 1 }}
-            htmlFor="description"
-          >
-            Description
-          </label>
-          <input
-            style={{ position: "relative", zIndex: 2 }}
-            id="floatField"
-            type="text"
-            name="description"
-            value={form.description}
-            onChange={onChangeHandler}
-            // placeholder="aegag"
-            // default="hi"
-            // value={value == null ? "" : value}
-          />
-        </div>
+        
         <input type="submit" className="btn btn-success mx-4" />
         {/* <input type="submit" className="btn btn-success mx-4" value="Update"/> */}
       </form>

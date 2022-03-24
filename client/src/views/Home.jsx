@@ -7,9 +7,8 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const Home = (props) => {
   const [dbtest, setDbtest] = useState({ assignment: "none", port: 0 });
   const [form, setForm] = useState({
-    title: "",
-    price: "",
-    description: "",
+    name: "",
+
   });
   const [fromDb, setFromDb] = useState([]);
   const history = useHistory();
@@ -35,7 +34,7 @@ const Home = (props) => {
 
   const updateFromDb = () => {
     axios
-      .get("http://localhost:9000/api/pm/")
+      .get("http://localhost:9000/api/author/")
       .then((res) => {
         console.log(res.data);
         setFromDb(res.data);
@@ -48,7 +47,7 @@ const Home = (props) => {
     // p("onSubmitHandler");
 
     axios
-      .post("http://localhost:9000/api/pm/create", form)
+      .post("http://localhost:9000/api/author/create", form)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
 
@@ -68,12 +67,10 @@ const Home = (props) => {
   };
 
   const onDeleteHandler = (_id, arrIndex, name) => {
-    if (
-      window.confirm(`Are you sure you want to delete item ${name}?`)
-    ) {
+    if (window.confirm(`Are you sure you want to delete item ${name}?`)) {
       console.log("inside on click delete");
       axios
-        .delete(`http://localhost:9000/api/pm/delete/${_id}`)
+        .delete(`http://localhost:9000/api/author/delete/${_id}`)
         .then((res) => {
           console.log(res.data);
           const copyState = [...fromDb];
@@ -133,23 +130,38 @@ const Home = (props) => {
 
   return (
     <>
+      <Link to={"/add"}>
+        <button className="btn btn-primary">New Author</button>
+      </Link>
       <form onSubmit={onSubmitHandler} className="box3">
         <div id="floatContainer" className="float-container">
-        <label style={{position: "absolute", zIndex: 1}} htmlFor="description">Title</label>
-        <input style={{position: "relative", zIndex: 2}}
+          <label
+            style={{ position: "absolute", zIndex: 1 }}
+            htmlFor="description"
+          >
+            Title
+          </label>
+          <input
+            style={{ position: "relative", zIndex: 2 }}
             autoFocus="autofocus"
             id="floatField"
             type="text"
-            name="title"
+            name="name"
             onChange={onChangeHandler}
-            
+
             // placeholder=""
             // default="asdf"
           />
         </div>
         <div id="floatContainer" className="float-container">
-        <label style={{position: "absolute", zIndex: 1}} htmlFor="description">Price</label>
-          <input style={{position: "relative", zIndex: 2}}
+          <label
+            style={{ position: "absolute", zIndex: 1 }}
+            htmlFor="description"
+          >
+            Price
+          </label>
+          <input
+            style={{ position: "relative", zIndex: 2 }}
             id="floatField"
             type="text"
             name="price"
@@ -157,8 +169,14 @@ const Home = (props) => {
           />
         </div>
         <div id="floatContainer" className="float-container">
-          <label style={{position: "absolute", zIndex: 1}} htmlFor="description">Description</label>
-          <input style={{position: "relative", zIndex: 2}}
+          <label
+            style={{ position: "absolute", zIndex: 1 }}
+            htmlFor="description"
+          >
+            Description
+          </label>
+          <input
+            style={{ position: "relative", zIndex: 2 }}
             id="floatField"
             type="text"
             name="description"
@@ -187,13 +205,13 @@ const Home = (props) => {
           </thead>
           <tbody>
             {fromDb.map((item, i) => {
-              // console.log(`function run ${i}, item: ${item.title}`);
+              // console.log(`function run ${i}, item: ${item.name}`);
               return (
                 <tr key={i}>
                   {/* <td>{item._id}</td> */}
                   {/* <td>{i + 1}</td> */}
-                  <td>{item.title}</td>
-                  <td>{item.price}</td>
+                  <td>{item.name}</td>
+                
                   {/* <td>{item.description}</td> */}
                   <td>
                     <Link to={`/${item._id}`}>
@@ -225,14 +243,9 @@ const Home = (props) => {
         <p>from Form:</p>
         <div className="box">
           <div className="box2">
-            <p>{form.title}</p>
+            <p>{form.name}</p>
           </div>
-          <div className="box2">
-            <p>{form.price}</p>{" "}
-          </div>
-          <div className="box2">
-            <p>{form.description}</p>{" "}
-          </div>
+       
         </div>
       </div>
     </>
