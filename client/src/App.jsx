@@ -7,13 +7,17 @@ import "./App.css";
 import Home from "./views/Home";
 import Single from "./views/Single";
 import Edit from "./views/Edit";
+import Add from "./views/Add";
 
 function App() {
   return (
     <div className="App">
-      <h1>Assignment Product Manager</h1>
+      <h1>Assignment Authors</h1>
       <Switch>
         <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/add">
           <Home />
         </Route>
         <Route exact path="/:_id">
