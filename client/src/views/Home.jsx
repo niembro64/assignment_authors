@@ -8,9 +8,9 @@ const Home = (props) => {
   const [dbtest, setDbtest] = useState({ assignment: "none", port: 0 });
   const [form, setForm] = useState({
     name: "",
-
   });
   const [fromDb, setFromDb] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const history = useHistory();
   // history.push(`/${category}/${detail}`);
 
@@ -26,7 +26,8 @@ const Home = (props) => {
       .catch((err) => console.log(err));
 
     updateFromDb();
-  }, []);
+    setLoaded(false)
+  }, [loaded]);
 
   const p = (a) => {
     console.log(a);
@@ -49,6 +50,7 @@ const Home = (props) => {
     axios
       .post("http://localhost:9000/api/author/create", form)
       .then((res) => console.log(res.data))
+      .then(setLoaded(true))
       .catch((err) => console.log(err));
 
     // p(event.target.value);
@@ -139,7 +141,7 @@ const Home = (props) => {
             style={{ position: "absolute", zIndex: 1 }}
             htmlFor="description"
           >
-            Title
+            Name
           </label>
           <input
             style={{ position: "relative", zIndex: 2 }}
@@ -153,39 +155,7 @@ const Home = (props) => {
             // default="asdf"
           />
         </div>
-        <div id="floatContainer" className="float-container">
-          <label
-            style={{ position: "absolute", zIndex: 1 }}
-            htmlFor="description"
-          >
-            Price
-          </label>
-          <input
-            style={{ position: "relative", zIndex: 2 }}
-            id="floatField"
-            type="text"
-            name="price"
-            onChange={onChangeHandler}
-          />
-        </div>
-        <div id="floatContainer" className="float-container">
-          <label
-            style={{ position: "absolute", zIndex: 1 }}
-            htmlFor="description"
-          >
-            Description
-          </label>
-          <input
-            style={{ position: "relative", zIndex: 2 }}
-            id="floatField"
-            type="text"
-            name="description"
-            onChange={onChangeHandler}
-            // placeholder="aegag"
-            // default="hi"
-            // value={value == null ? "" : value}
-          />
-        </div>
+
         <input type="submit" className="btn btn-primary mx-4" />
       </form>
 
@@ -195,9 +165,8 @@ const Home = (props) => {
             <tr>
               {/* <th>ID</th> */}
               {/* <th>#</th> */}
-              <th>Title</th>
-              <th>Price</th>
-              {/* <th>Description</th> */}
+              <th>Name</th>
+
               <th></th>
               <th></th>
               <th></th>
@@ -211,8 +180,7 @@ const Home = (props) => {
                   {/* <td>{item._id}</td> */}
                   {/* <td>{i + 1}</td> */}
                   <td>{item.name}</td>
-                
-                  {/* <td>{item.description}</td> */}
+
                   <td>
                     <Link to={`/${item._id}`}>
                       <button className="btn btn-secondary btn-sm">View</button>
@@ -245,7 +213,6 @@ const Home = (props) => {
           <div className="box2">
             <p>{form.name}</p>
           </div>
-       
         </div>
       </div>
     </>

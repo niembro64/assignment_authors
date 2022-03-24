@@ -11,9 +11,8 @@ const p = (a) => {
 const Edit = (props) => {
   const { _id } = useParams();
   // const [one, setOne] = useState({
-  //   title: "default",
-  //   price: "default",
-  //   description: "default",
+  //   name: "default",
+
   // });
   const [form, setForm] = useState({
     name: "",
@@ -25,7 +24,7 @@ const Edit = (props) => {
     p("useEffect Running");
 
     axios
-      .get(`http://localhost:9000/api/pm/${_id}`)
+      .get(`http://localhost:9000/api/author/${_id}`)
       .then((res) => {
         console.log(res.data);
         // setOne(res.data);
@@ -38,7 +37,7 @@ const Edit = (props) => {
     if (window.confirm(`Are you sure you want to delete this item?`)) {
       console.log("inside on click delete");
       axios
-        .delete(`http://localhost:9000/api/pm/delete/${_id}`)
+        .delete(`http://localhost:9000/api/author/delete/${_id}`)
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
     }
@@ -53,13 +52,9 @@ const Edit = (props) => {
     };
 
     axios
-      .patch(`http://localhost:9000/api/pm/update/${form._id}`, copyState)
+      .patch(`http://localhost:9000/api/author/update/${form._id}`, copyState)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
-    // axios
-    //   .patch(`http://localhost:9000/api/pm/update/${form._id}`, {"form": `${form.title}`},"price": `${form.price}, "description": `${form.description}`)
-    //   .then((updatedPM)) => res.json(updatedPM))
-    //   .catch((err) => console.log(err));
 
     // p(event.target.value);
 
@@ -147,9 +142,9 @@ const Edit = (props) => {
         <div id="floatContainer" className="float-container">
           <label
             style={{ position: "absolute", zIndex: 1 }}
-            htmlFor="description"
+            htmlFor="name"
           >
-            Title
+            Name
           </label>
           <input
             style={{ position: "relative", zIndex: 2 }}
@@ -170,15 +165,13 @@ const Edit = (props) => {
       </form>
       <div className="box">
         <p>form</p>
-        <p> {form.title}</p>
-        <p> {form.price}</p>
-        <p> {form.description}</p>
+        <p> {form.name}</p>
+ 
       </div>
       {/* <div className="box">
         <p>one</p>
-        <p> {one.title}</p>
-        <p> {one.price}</p>
-        <p> {one.description}</p>
+        <p> {one.name}</p>
+
       </div> */}
     </>
   );
@@ -186,9 +179,9 @@ const Edit = (props) => {
 
 export default Edit;
 
-// module.exports.updateExistingPM = (req, res) => {
-//   PM.findOneAndUpdate({ _id: req.params._id }, req.body, { new: true })
-//     .then((updatedPM) => res.json(updatedPM))
+// module.exports.updateExistingAUTHOR = (req, res) => {
+//   AUTHOR.findOneAndUpdate({ _id: req.params._id }, req.body, { new: true })
+//     .then((updatedAUTHOR) => res.json(updatedAUTHOR))
 //     .catch((err) =>
 //       res.status(400).json({ message: "Something went wrong", error: err })
 //     );

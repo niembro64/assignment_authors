@@ -12,55 +12,49 @@ const Edit = (props) => {
   const { _id } = useParams();
   // const [one, setOne] = useState({
   //   name: "default",
-  //   price: "default",
-  //   description: "default",
+
   // });
   const [form, setForm] = useState({
     name: "",
-
   });
 
   const history = useHistory();
 
-  useEffect(() => {
-    p("useEffect Running");
+  // useEffect(() => {
+  //   p("useEffect Running");
 
-    axios
-      .get(`http://localhost:9000/api/pm/${_id}`)
-      .then((res) => {
-        console.log(res.data);
-        // setOne(res.data);
-        setForm(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, [_id]);
+  //   axios
+  //     .get(`http://localhost:9000/api/author/${_id}`)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       // setOne(res.data);
+  //       setForm(res.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, [_id]);
 
-  const onDeleteHandler = (_id) => {
-    if (window.confirm(`Are you sure you want to delete this item?`)) {
-      console.log("inside on click delete");
-      axios
-        .delete(`http://localhost:9000/api/pm/delete/${_id}`)
-        .then((res) => console.log(res.data))
-        .catch((err) => console.log(err));
-    }
-  };
+  // const onDeleteHandler = (_id) => {
+  //   if (window.confirm(`Are you sure you want to delete this item?`)) {
+  //     console.log("inside on click delete");
+  //     axios
+  //       .delete(`http://localhost:9000/api/author/delete/${_id}`)
+  //       .then((res) => console.log(res.data))
+  //       .catch((err) => console.log(err));
+  //   }
+  // };
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
     const copyState = {
       name: form.name,
-
     };
 
     axios
-      .patch(`http://localhost:9000/api/pm/update/${form._id}`, copyState)
+      .post("http://localhost:9000/api/author/create", form)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
-    // axios
-    //   .patch(`http://localhost:9000/api/pm/update/${form._id}`, {"form": `${form.name}`},"price": `${form.price}, "description": `${form.description}`)
-    //   .then((updatedPM)) => res.json(updatedPM))
-    //   .catch((err) => console.log(err));
+
 
     // p(event.target.value);
 
@@ -132,7 +126,7 @@ const Edit = (props) => {
           <button className="btn btn-secondary mx-4">Back</button>
         </Link>
         <h2>Add</h2>
-        <Link to={`/`}>
+        {/* <Link to={`/`}>
           <button
             onClick={() => {
               onDeleteHandler(form._id);
@@ -141,15 +135,12 @@ const Edit = (props) => {
           >
             delete
           </button>
-        </Link>
+        </Link> */}
       </div>
 
       <form onSubmit={onSubmitHandler} className="box3">
         <div id="floatContainer" className="float-container">
-          <label
-            style={{ position: "absolute", zIndex: 1 }}
-            htmlFor="name"
-          >
+          <label style={{ position: "absolute", zIndex: 1 }} htmlFor="name">
             Name
           </label>
           <input
@@ -165,14 +156,13 @@ const Edit = (props) => {
             // default="asdf"
           />
         </div>
-        
+
         <input type="submit" className="btn btn-success mx-4" />
         {/* <input type="submit" className="btn btn-success mx-4" value="Update"/> */}
       </form>
       <div className="box">
         <p>form</p>
         <p> {form.name}</p>
-
       </div>
       {/* <div className="box">
         <p>one</p>
@@ -185,9 +175,9 @@ const Edit = (props) => {
 
 export default Edit;
 
-// module.exports.updateExistingPM = (req, res) => {
-//   PM.findOneAndUpdate({ _id: req.params._id }, req.body, { new: true })
-//     .then((updatedPM) => res.json(updatedPM))
+// module.exports.updateExistingAUTHOR = (req, res) => {
+//   AUTHOR.findOneAndUpdate({ _id: req.params._id }, req.body, { new: true })
+//     .then((updatedAUTHOR) => res.json(updatedAUTHOR))
 //     .catch((err) =>
 //       res.status(400).json({ message: "Something went wrong", error: err })
 //     );
