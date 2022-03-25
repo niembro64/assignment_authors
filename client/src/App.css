@@ -59,7 +59,7 @@ label {
   color: black;
   position: absolute;
   transform-origin: top left;
-  transform: translate(0, 1px) scale(1);
+  transform: translate(3px, 0px) scale(1);
   transition: all 0.2s ease-in-out;
 
 }
