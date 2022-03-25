@@ -42,8 +42,15 @@ module.exports.deleteAnExistingAuthor = (req, res) => {
 
 ///////////
 
+// module.exports.updateExistingAuthor = (req, res) => {
+//   Author.findOneAndUpdate({ _id: req.params._id }, req.body, { new: true })
+//     .then((updatedAuthor) => res.json(updatedAuthor))
+//     .catch((err) =>
+//       res.status(400).json({ message: "Something went wrong", error: err })
+//     );
+// };
 module.exports.updateExistingAuthor = (req, res) => {
-  Author.findOneAndUpdate({ _id: req.params._id }, req.body, { new: true })
+  Author.findOneAndUpdate({ _id: req.params._id }, req.body,{runValidators: true})
     .then((updatedAuthor) => res.json(updatedAuthor))
     .catch((err) =>
       res.status(400).json({ message: "Something went wrong", error: err })

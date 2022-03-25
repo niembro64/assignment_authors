@@ -11,11 +11,12 @@ const Home = (props) => {
   });
   const [fromDb, setFromDb] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState({ name: { } });
   const history = useHistory();
   // history.push(`/${category}/${detail}`);
 
   useEffect(() => {
-    p("useEffect Running");
+    p("Running useEffect");
 
     axios
       .get("http://localhost:9000/api")
@@ -24,9 +25,10 @@ const Home = (props) => {
         setDbtest(res.data);
       })
       .catch((err) => console.log(err));
+    // .catch((err) => console.log(err.response.data.err.errors));
 
     updateFromDb();
-    setLoaded(false)
+    setLoaded(false);
   }, [loaded]);
 
   const p = (a) => {
@@ -34,30 +36,38 @@ const Home = (props) => {
   };
 
   const updateFromDb = () => {
+    p("Running updateFromDb");
     axios
       .get("http://localhost:9000/api/author/")
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setFromDb(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err.response.error.errors));
+    // .catch((err) => console.log(err.response.error.errors));
   };
 
   const onSubmitHandler = (event) => {
+    p("Running onSubmitHandler");
     event.preventDefault();
-    // p("onSubmitHandler");
 
     axios
       .post("http://localhost:9000/api/author/create", form)
-      .then((res) => console.log(res.data))
-      .then(setLoaded(true))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log(res.data);
+        setLoaded(true);
+        setError({});
+      })
+      .catch((err) => {
+        p("in OnSubmitHandler Error");
+        console.log(err.response.data.error.errors);
+        setError(err.response.data.error.errors);
+      });
 
-    // p(event.target.value);
-    updateFromDb();
   };
 
   const onChangeHandler = (event) => {
+    p("Running onChangeHandler");
     event.preventDefault();
 
     // p(event.target.value);
@@ -79,7 +89,7 @@ const Home = (props) => {
           copyState.splice(arrIndex, 1);
           setFromDb(copyState);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(error.response.data.err.errors));
     }
   };
 
@@ -155,6 +165,7 @@ const Home = (props) => {
             // default="asdf"
           />
         </div>
+        <span className="alert-danger">{ error.name && error.name.message}</span>
 
         <input type="submit" className="btn btn-primary mx-4" />
       </form>

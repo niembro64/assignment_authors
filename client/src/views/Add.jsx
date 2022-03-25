@@ -17,48 +17,25 @@ const Edit = (props) => {
   const [form, setForm] = useState({
     name: "",
   });
+  const [error, setError] = useState({ name: {} });
 
   const history = useHistory();
 
-  // useEffect(() => {
-  //   p("useEffect Running");
-
-  //   axios
-  //     .get(`http://localhost:9000/api/author/${_id}`)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       // setOne(res.data);
-  //       setForm(res.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [_id]);
-
-  // const onDeleteHandler = (_id) => {
-  //   if (window.confirm(`Are you sure you want to delete this item?`)) {
-  //     console.log("inside on click delete");
-  //     axios
-  //       .delete(`http://localhost:9000/api/author/delete/${_id}`)
-  //       .then((res) => console.log(res.data))
-  //       .catch((err) => console.log(err));
-  //   }
-  // };
-
   const onSubmitHandler = (event) => {
+    p("Running onSubmitHandler");
     event.preventDefault();
-
-    const copyState = {
-      name: form.name,
-    };
 
     axios
       .post("http://localhost:9000/api/author/create", form)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-
-
-    // p(event.target.value);
-
-    history.push(`/`);
+      .then((res) => {
+        console.log(res.data);
+        history.push(`/`);
+      })
+      .catch((err) => {
+        p("in OnSubmitHandler Error");
+        console.log(err.response.data.error.errors);
+        setError(err.response.data.error.errors);
+      });
   };
 
   const onChangeHandler = (event) => {
@@ -123,7 +100,7 @@ const Edit = (props) => {
     <>
       <div className="box">
         <Link to={"/"}>
-          <button className="btn btn-secondary mx-4">Back</button>
+          <button className="btn btn-secondary mx-4">Cancel</button>
         </Link>
         <h2>Add</h2>
         {/* <Link to={`/`}>
@@ -156,9 +133,8 @@ const Edit = (props) => {
             // default="asdf"
           />
         </div>
-
+        <span className="alert-danger">{error.name && error.name.message}</span>
         <input type="submit" className="btn btn-success mx-4" />
-        {/* <input type="submit" className="btn btn-success mx-4" value="Update"/> */}
       </form>
       <div className="box">
         <p>form</p>

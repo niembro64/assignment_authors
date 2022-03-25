@@ -17,6 +17,7 @@ const Edit = (props) => {
   const [form, setForm] = useState({
     name: "",
   });
+  const [error, setError] = useState({ name: {} });
 
   const history = useHistory();
 
@@ -30,8 +31,9 @@ const Edit = (props) => {
         // setOne(res.data);
         setForm(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err.response.data.error.errors));
   }, [_id]);
+
 
   const onDeleteHandler = (_id) => {
     if (window.confirm(`Are you sure you want to delete this item?`)) {
@@ -39,26 +41,30 @@ const Edit = (props) => {
       axios
         .delete(`http://localhost:9000/api/author/delete/${_id}`)
         .then((res) => console.log(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err.response.data.error.errors));
     }
   };
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
+    console.log("Edit | onSubmitHandler | Jumped In")
 
     const copyState = {
       name: form.name,
-
     };
 
     axios
-      .patch(`http://localhost:9000/api/author/update/${form._id}`, copyState)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-
-    // p(event.target.value);
-
-    history.push(`/`);
+      .patch(`http://localhost:9000/api/author/update/${form._id}`, {name: form.name})
+      .then((res) => {
+        console.log("Edit | onSubmitHandler | Success Submitting")
+        console.log(res.data);
+        // history.push(`/`);
+      })
+      .catch((err) => {
+        p("Edit | onSubmitHandler | Error");
+        console.log(err.response.data.error.errors);
+        setError(err.response.data.error.errors);
+      });
   };
 
   const onChangeHandler = (event) => {
@@ -123,7 +129,7 @@ const Edit = (props) => {
     <>
       <div className="box">
         <Link to={"/"}>
-          <button className="btn btn-secondary mx-4">Back</button>
+          <button className="btn btn-secondary mx-4">Cancel</button>
         </Link>
         <h2>Edit</h2>
         <Link to={`/`}>
@@ -140,10 +146,7 @@ const Edit = (props) => {
 
       <form onSubmit={onSubmitHandler} className="box3">
         <div id="floatContainer" className="float-container">
-          <label
-            style={{ position: "absolute", zIndex: 1 }}
-            htmlFor="name"
-          >
+          <label style={{ position: "absolute", zIndex: 1 }} htmlFor="name">
             Name
           </label>
           <input
@@ -159,14 +162,13 @@ const Edit = (props) => {
             // default="asdf"
           />
         </div>
-        
-        <input type="submit" className="btn btn-success mx-4" />
+        <span className="alert-danger">{error.name && error.name.message}</span>
+        <input type="submit" className="btn btn-success mx-4" value="Update"/>
         {/* <input type="submit" className="btn btn-success mx-4" value="Update"/> */}
       </form>
       <div className="box">
         <p>form</p>
         <p> {form.name}</p>
- 
       </div>
       {/* <div className="box">
         <p>one</p>
@@ -186,6 +188,5 @@ export default Edit;
 //       res.status(400).json({ message: "Something went wrong", error: err })
 //     );
 // };
-
 
 // pre backend validations
